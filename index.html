@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Maha Dasha Calculation</title>
+  <style>
+    /* Add your CSS styles here */
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      /*background-color: #f1f1f1;*/background: linear-gradient(45deg, #2980b9, #6dd5fa, #ffffff);
+      margin: 0;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+    }
+    
+    button[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    
+    #resultContainer {
+      background-color: white;
+      padding: 20px;
+      border-radius: 4px;
+    }
+    
+    .result-item {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Maha Dasha Calculation</h1>
+  
+  <form id="dobForm">
+    <label for="dobInput">Enter your Date of Birth:</label>
+    <input type="text" id="dobInput" name="dobInput" placeholder="DD-MM-YYYY" />
+    <button type="submit">Calculate</button>
+  </form>
+  
+  <div id="resultContainer"></div>
+
+  <script>
+    document.getElementById("dobForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      var dob = document.getElementById("dobInput").value;
+      var dobParts = dob.split("-");
+      var day = parseInt(dobParts[0]);
+      var month = parseInt(dobParts[1]);
+      var year = parseInt(dobParts[2]);
+      
+      var resultContainer = document.getElementById("resultContainer");
+      resultContainer.innerHTML = ""; // Clear previous results
+      
+      // Perform Maha Dasha calculation based on the given logic
+      var sumOfDigits = day.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+      
+      if (sumOfDigits === 10 || sumOfDigits === 11) {
+        sumOfDigits = sumOfDigits % 9;
+      }
+      
+      var dashaYears = [sumOfDigits];
+
+      for (var i = 1; i < 15; i++) {
+        sumOfDigits++;
+        if (sumOfDigits > 9) {
+          sumOfDigits = 1;
+        }
+        dashaYears.push(sumOfDigits);
+      }
+
+      var dashaNames = ["Sun", "Moon", "Jupiter", "Rahu", "Mercury", "Venus", "Ketu", "Saturn", "Mars"];
+      var currentYear = year;
+      var result = "";
+      
+      for (var i = 0; i < dashaYears.length; i++) {
+        var startYear = currentYear;
+        currentYear += dashaYears[i];
+        var endYear = currentYear ;
+        
+        result += startYear + " to " + endYear + " - " + dashaYears[i] + " is " + dashaNames[dashaYears[i] - 1] + "<br>";
+      }
+      
+      resultContainer.innerHTML = result;
+    });
+  </script>
+</body>
+</html>
